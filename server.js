@@ -20,9 +20,32 @@ const forData = require('./data/weather.json').data.reduce((acc, curr) => {
 const PORT = process.env.PORT;
 const WEATHER = process.env.WEATHER_API_KEY;
 
+const yourForc = process.env.WEATHER_BASE;
+
 app.get('/', function (req, res){
     res.send('Welcome')
-})   
+})
+
+function handleForePlan(req,res){
+    const { lat , lon } = req.query;
+    const CHANNEL = `${yourForc}?lat=${lat}&lon=${lon}&key=${WEATHER}&days=3`;
+
+    superagent.get(CHANNEL)
+    .then(rez => {
+        const forray = rez.data.reduce((acc, curr) => {
+            (curr.lat === lat && curr.lon === lon) 
+            ?  [...acc , curr]
+            : acc
+        },[])
+
+        return forray})
+        
+        console.log('forray: ', forray);
+        res.status(200).send(forray)
+        
+}
+
+app.get('/forecast', handleForePlan)
 
 // app.get('/test', function (req, res){
 //     res.send(forData.data.reduce((acc, curr) => {
