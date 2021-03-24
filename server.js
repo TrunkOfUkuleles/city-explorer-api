@@ -11,38 +11,44 @@ const app = express();
 //others access server
 app.use(cors())
 
+const forData = require('./data/weather.json').data.reduce((acc, curr) => {
+    return  [...acc, Forecast(curr.datetime, curr.weather.description, curr.temp)]
+                                           
+}, [])
+
 
 const PORT = process.env.PORT;
 
 app.get('/', function (req, res){
-    res.send('hello world')
+    res.send('Welcome')
 })   
 
-app.get('/test', function (req, res){
-    res.send(forData.data.reduce((acc, curr) => {
-        let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
-        return result
-    }, []))
-} )
+// app.get('/test', function (req, res){
+//     res.send(forData.data.reduce((acc, curr) => {
+//         let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
+//         return result
+//     }, []))
+// } )
 
 app.listen(PORT, ()=> console.log(`listening on ${PORT}`))
 
-function Forecast (date, lat, lon){
+function Forecast (date, description, temperature){
     let nwe = new Object;
     nwe.date = date;
-    nwe.lat = lat;
-    nwe.lon = lon
+    nwe.desc = description;
+    nwe.temp = temperature
     return nwe;
 }
-const forData = require('./data/weather.json')  
 
 
-app.get('/weather', function(req, res){
 
-    let final = forData.data.reduce((acc, curr) => {
-        let result = [...acc, Forecast(curr.datetime, curr.weather.description)]
-        return result
-    }, [])
-   
+app.get('/weather', async function(req, res){
+    {console.log(forData)}
+   const final = forData
+
     res.send(final)
+})
+
+app.use('*', (req, res) => {
+    res.status(404).send('Page not found bro')
 })
