@@ -37,12 +37,12 @@ function Forecast (date, lat, lon){
 const forData = require('./data/weather.json')  
 
 
-app.get('/forcast', function(req, res){
+app.get('/weather', function(req, res){
 
     let final = forData.data.reduce((acc, curr) => {
         let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
         return result
     }, [])
-    console.log(final)
+   
     res.send(final)
 })
