@@ -40,7 +40,7 @@ const forData = require('./data/weather.json')
 app.get('/weather', function(req, res){
 
     let final = forData.data.reduce((acc, curr) => {
-        let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
+        let result = [...acc, Forecast(curr.datetime, curr.weather.description)]
         return result
     }, [])
    
