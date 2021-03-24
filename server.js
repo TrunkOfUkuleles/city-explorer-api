@@ -18,6 +18,7 @@ const forData = require('./data/weather.json').data.reduce((acc, curr) => {
 
 
 const PORT = process.env.PORT;
+const WEATHER = process.env.WEATHER_API_KEY;
 
 app.get('/', function (req, res){
     res.send('Welcome')
