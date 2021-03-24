@@ -10,29 +10,37 @@ const cors = require('cors');
 const app = express();
 //others access server
 app.use(cors())
-const forData = require(`/data/weather.JSON`)  
+
 
 const PORT = process.env.PORT;
 
 app.get('/', function (req, res){
     res.send('hello world')
-})                                                     
+})   
+
+app.get('/test', function (req, res){
+    res.send(forData.data.reduce((acc, curr) => {
+        let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
+        return result
+    }, []))
+} )
 
 app.listen(PORT, ()=> console.log(`listening on ${PORT}`))
 
-function forecast (date, desc){
+function Forecast (date, lat, lon){
     let nwe = new Object;
     nwe.date = date;
-    nwe.description = desc;
+    nwe.lat = lat;
+    nwe.lon = lon
     return nwe;
 }
-
+const forData = require('./data/weather.json')  
 
 
 app.get('/forcast', function(req, res){
 
-    let final = forData[0].reduce((acc, curr) => {
-        let result = [...acc, forecast(curr.datetime, curr.description)]
+    let final = forData.data.reduce((acc, curr) => {
+        let result = [...acc, Forecast(curr.datetime, curr.lat, curr.lon)]
         return result
     }, [])
     console.log(final)
