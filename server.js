@@ -27,7 +27,8 @@ app.get('/', function (req, res){
 })
 
 function handleForePlan(req,res){
-    const { lat , lon } = req.query;
+    const { lat , lon } = req.query.params;
+    console.log('superpass: ')
     const CHANNEL = `${yourForc}?lat=${lat}&lon=${lon}&key=${WEATHER}&days=3`;
 
     superagent.get(CHANNEL)
