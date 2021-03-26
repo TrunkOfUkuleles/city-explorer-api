@@ -7,20 +7,20 @@ const Weatherer  = require("./Weatherer");
 
 
 function askServ (req, res) {
-    const { lattude, lontude } = req.query;
+    const { lat, lon } = req.query;
     const url = process.env.BASE;
-    const quer = {
+    const query = {
         key: process.env.WEATHER_API_KEY,
-        lat: lattude,
-        lon: lontude,
+        lat: lat,
+        lon: lon,
     }
-
+        console.log(query)
     superagent
     .get(url)
-    .query(quer)
+    .query(query)
     .then(SA => {
-        const resul = SA.body.data;
-        const weath = resul.map(day => new Weatherer(day));
+        const result = SA.body.data;
+        const weath = result.map(day => new Weatherer(day));
         res.status(200).send(weath)
     }).catch(err => {
         res.status(500).send('messed up');

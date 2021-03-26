@@ -11,6 +11,7 @@ const forecaster = require ('./askServ')
 
 //POL
 app.get('/', function (req, res){
+    console.log('hello')
     res.send('Welcome')
 })
 app.listen(PORT, ()=> console.log(`listening on ${PORT}`))
