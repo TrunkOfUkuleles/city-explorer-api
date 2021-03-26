@@ -6,25 +6,30 @@ const superagent = require('superagent');
 const Weatherer  = require("./Weatherer");
 
 
-function askServ (req, res) {
-    const { lattude, lontude } = req.query;
-    const url = process.env.BASE;
-    const quer = {
-        key: process.env.WEATHER_API_KEY,
-        lat: lattude,
-        lon: lontude,
-    }
+const inMemDB = {}
 
+function askServ (req, res) {
+    const { lat, lon } = req.query;
+    if (inMemDB['Weather -' + lat + lon]){ res.send(inMemDB['Weather -' + lat + lon])}
+    else{
+    const url = process.env.WEATHER_BASE;
+    const query = {
+        key: process.env.WEATHER_API_KEY,
+        lat: lat,
+        lon: lon,
+    }
+        console.log(query)
     superagent
     .get(url)
-    .query(quer)
+    .query(query)
     .then(SA => {
-        const resul = SA.body.data;
-        const weath = resul.map(day => new Weatherer(day));
+        const result = SA.body.data;
+        const weath = result.map(day => new Weatherer(day));
+        imMemDB['Weather -' + lattude + lontude] = weath
         res.status(200).send(weath)
-    }).catch(err => {
+    }).catch(error => {
         res.status(500).send('messed up');
-    }); 
+    }); }
     };
 
 module.exports = askServ;
