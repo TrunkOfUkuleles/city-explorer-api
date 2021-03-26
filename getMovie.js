@@ -2,11 +2,12 @@
 'use strict';
 
 let cache = require('./cache.js');
+const superagent = require('superagent');
 
 function getMovie (req, res) {
-  const { name } = req.query;     
+  const { name } = req.query.params;     
   const key = 'Movie - ' + name ;    
-  const url = process.env.MOVIE_BASE;
+  const url = `https://api.themoviedb.org/3/search/movie`;
   const queryParams = {
     key: process.env.MOVIE_KEY,
     query: name,

@@ -2,19 +2,20 @@
 'use strict';
 
 let cache = require('./cache.js');
+const superagent = require('superagent');
 
 function getWeather(req, res) {
-  const { lattude, lontude} = req.query;
-  const key = 'weather -' + lattude + lontude;
-  const url = process.env.WEATHER_BASE;
+  const { lattude, lontude } = req.query;
+  const key = 'weather - ' + lattude + lontude;
+  const url = `https://api.weatherbit.io/v2.0/forecast/daily/`;
   const queryParams = {
     key: process.env.WEATHER_API_KEY,
     lang: 'en',
-    lat: lat,
-    lon: lon,
+    lat: req.query.lat,
+    lon: req.query.lon,
     days: 5,
   };
-
+  console.log(queryParams)
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
     console.log('Cache hit');
     res.send(cache[key].data)
@@ -26,7 +27,7 @@ function getWeather(req, res) {
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
-        parseWeather(rerturner)});
+        parseWeather(returner)});
   }
   
   return cache[key].data;
