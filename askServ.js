@@ -8,7 +8,7 @@ const Weatherer  = require("./Weatherer");
 
 function askServ (req, res) {
     const { lat, lon } = req.query;
-    const url = process.env.BASE;
+    const url = process.env.WEATHER_BASE;
     const query = {
         key: process.env.WEATHER_API_KEY,
         lat: lat,
@@ -22,7 +22,7 @@ function askServ (req, res) {
         const result = SA.body.data;
         const weath = result.map(day => new Weatherer(day));
         res.status(200).send(weath)
-    }).catch(err => {
+    }).catch(error => {
         res.status(500).send('messed up');
     }); 
     };
