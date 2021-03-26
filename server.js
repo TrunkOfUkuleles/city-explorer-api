@@ -7,7 +7,8 @@ require('dotenv').config();
 const app = express();
 app.use(cors())
 const PORT = process.env.PORT;
-const forecaster = require('./askServ')
+const forecaster = require('./getWeather')
+const getMovies = require('./getMovie')
 
 
 //POL
@@ -17,10 +18,10 @@ app.get('/', function (req, res){
 })
 app.listen(PORT, ()=> console.log(`listening on ${PORT}`))
 
-//weather rout recieveing laat/lon
+//weather rout recieveing laat/lon  
 app.get('/weather', forecaster);
 
-// app.get(/movies, movieSer);
+app.get('/movie', getMovies);
 
 
 app.use('*', (req, res) => {
