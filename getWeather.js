@@ -1,43 +1,49 @@
       
 'use strict';
+require('dotenv').config();
 
-let cache = require('./cache.js');
+const cache = require('./cache.js');
 const superagent = require('superagent');
 
-function getWeather(req, res) {
-  const { lattude, lontude } = req.query;
-  const key = 'weather - ' + lattude + lontude;
-  const url = `https://api.weatherbit.io/v2.0/forecast/daily/`;
+function getWeather(lat, lon) {
+    console.log('we hit weather')
+  const lattitude = lat;
+  const longitude = lon;
+  const key = 'weather - ' + lat + lon;
+  const url = `https://api.weatherbit.io/v2.0/forecast/daily`;
   const queryParams = {
     key: process.env.WEATHER_API_KEY,
     lang: 'en',
-    lat: req.query.lat,
-    lon: req.query.lon,
+    lat: lattitude,
+    lon: longitude,
     days: 5,
   };
-  console.log(queryParams)
+
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
     console.log('Cache hit');
-    res.send(cache[key].data)
+    return cache[key].data;
   } else {
     console.log('Cache miss');
+
     cache[key] = {};
     cache[key].timestamp = Date.now();
     cache[key].data = superagent.get(url)
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
-        parseWeather(returner)});
+
+        parseWeather(returner)})
   }
-  
+
   return cache[key].data;
 }
 
 function parseWeather(weatherData) {
   try {
-    const weatherSummaries = weatherData.map(day => {
+    const weatherSummaries = new Promise(weatherData.map(day => {
       return new Weather(day);
-    });
+    }));
+    console.log('weather days: ', weatherSummaries)
     return Promise.resolve(weatherSummaries);
   } catch (e) {
     return Promise.reject(e);
