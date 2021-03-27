@@ -21,6 +21,7 @@ function getWeather(lat, lon) {
 
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
     console.log('Cache hit');
+    console.log({cache: cache[key].data})
     return cache[key].data;
   } else {
     console.log('Cache miss');
@@ -31,7 +32,7 @@ function getWeather(lat, lon) {
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
-
+        console.log
         parseWeather(returner)})
   }
 
@@ -40,9 +41,9 @@ function getWeather(lat, lon) {
 
 function parseWeather(weatherData) {
   try {
-    const weatherSummaries = new Promise(weatherData.map(day => {
-      return new Weather(day);
-    }));
+    const weatherSummaries = weatherData.map(day => {
+      return new Weather(day)
+    });
     console.log('weather days: ', weatherSummaries)
     return Promise.resolve(weatherSummaries);
   } catch (e) {

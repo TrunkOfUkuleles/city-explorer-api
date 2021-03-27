@@ -12,8 +12,7 @@ const getMovies = require('./getMovie')
 let cache = require('./cache.js');
 
  function handleWeather(req, res) {
-     console.log(req.query.lat)
-    console.log('cache: ', cache)
+    
     const lat = req.query.lat;
     const lon = req.query.lon;
     forecaster(lat, lon)
@@ -24,7 +23,8 @@ let cache = require('./cache.js');
         console.error(error)
         res.status(500).send("Sorry, something ain't right")
     })
-}
+ 
+ }
 
 //POL
 app.get('/', function (req, res){
