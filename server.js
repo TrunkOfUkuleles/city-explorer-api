@@ -11,11 +11,11 @@ const forecaster = require('./getWeather')
 const getMovies = require('./getMovie')
 let cache = require('./cache.js');
 
- function handleWeather(req, res) {
+ async function handleWeather(req, res) {
     
     const lat = req.query.lat;
     const lon = req.query.lon;
-    forecaster(lat, lon)
+    await forecaster(lat, lon)
     .then(stuff => {
         console.log(stuff)
         res.status(200).send(stuff)})
