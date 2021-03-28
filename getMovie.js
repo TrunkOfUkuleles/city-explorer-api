@@ -24,7 +24,7 @@ function getMovie (moviequery) {
     cache[key].data = superagent.get(url)
     .query(queryParams)
     .then(response => {
-        const returner = response.body.data
+        const returner = response.body.results
         console.log('returner ', returner)
         parseMovie(returner)})
   }
