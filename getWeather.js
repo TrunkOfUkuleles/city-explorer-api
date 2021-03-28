@@ -35,7 +35,7 @@ function getWeather(lat, lon) {
         console.log('returner: ', returner)
         parseWeather(returner)})
   }
-
+    console.log('final cache: ', cache[key].data)
   return cache[key].data;
 }
 
