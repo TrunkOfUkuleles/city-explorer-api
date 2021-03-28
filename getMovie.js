@@ -10,7 +10,7 @@ function getMovie (moviequery) {
   const query = moviequery    
   const url = `https://api.themoviedb.org/3/search/movie`;
   const queryParams = {
-    key: process.env.MOVIE_KEY,
+    api_key: process.env.MOVIE_KEY,
     query: query,
   };
 
