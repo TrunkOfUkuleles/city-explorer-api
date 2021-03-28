@@ -6,7 +6,7 @@ const cache = require('./cache.js');
 const superagent = require('superagent');
 
 function getMovie (moviequery) {
-  const key = 'Movie - ' + name ;
+  const key = 'Movie - ' + moviequery;
   const query = moviequery    
   const url = `https://api.themoviedb.org/3/search/movie`;
   const queryParams = {

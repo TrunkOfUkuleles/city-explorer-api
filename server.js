@@ -32,7 +32,7 @@ let cache = require('./cache.js');
 
     await getMovies(moviequery)
     .then(stuff => {
-        console.log(stuff)
+        console.log('after then', stuff)
         res.status(200).send(stuff)})
     .catch((error) => {
         console.error(error)
