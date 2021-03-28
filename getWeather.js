@@ -35,7 +35,7 @@ function getWeather(lat, lon) {
         console.log('returner: ', returner)
         parseWeather(returner)})
   }
-
+    console.log('final cache: ', cache[key].data)
   return cache[key].data;
 }
 
@@ -45,7 +45,7 @@ function parseWeather(weatherData) {
       return new Weather(day)
     });
     console.log('weather days: ', weatherSummaries)
-    return weatherSummaries;
+    return Promise.resolve(weatherSummaries);
   } catch (e) {
     return Promise.reject(e);
   }
