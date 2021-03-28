@@ -32,7 +32,7 @@ function getWeather(lat, lon) {
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
-        parseWeather(returner).then().send(returner)})
+        parseWeather(returner).resolve()})
   }
   console.log('final cache: ', cache[key])
   return cache[key].data;
@@ -44,7 +44,7 @@ function parseWeather(weatherData) {
       return new Weather(day)
     });
     console.log('weather days: ', weatherSummaries)
-    return Promise.resolve(weatherSummaries);
+    return Promise(weatherSummaries);
   } catch (e) {
     return Promise.reject(e);
   }
