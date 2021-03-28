@@ -1,21 +1,22 @@
       
 'use strict';
+require('dotenv').config();
 
-let cache = require('./cache.js');
+const cache = require('./cache.js');
 const superagent = require('superagent');
 
-function getMovie (req, res) {
-  const { name } = req.query.params;     
-  const key = 'Movie - ' + name ;    
+function getMovie (moviequery) {
+  const key = 'Movie - ' + name ;
+  const query = moviequery    
   const url = `https://api.themoviedb.org/3/search/movie`;
   const queryParams = {
     key: process.env.MOVIE_KEY,
-    query: name,
+    query: query,
   };
 
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
     console.log('Cache hit');
-    res.send(cache[key].data)
+    return cache[key].data;
   } else {
     console.log('Cache miss');
     cache[key] = {};
@@ -23,14 +24,14 @@ function getMovie (req, res) {
     cache[key].data = superagent.get(url)
     .query(queryParams)
     .then(response => {
-        const returner = response.body.data.results
-        parseMovies(returner)});
+        const returner = response.body.data
+        parseMovie(returner)})
   }
-  
+  console.log('final cache: ', cache[key])
   return cache[key].data;
 }
 
-function parseMovies(movieReturn) {
+function parseMovie(movieReturn) {
   try {
     const movieResults = movieReturn.map(movie => {
       return new Movier(movie);

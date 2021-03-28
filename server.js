@@ -26,6 +26,22 @@ let cache = require('./cache.js');
  
  }
 
+ async function handleMovie(req, res) {
+    
+    const moviequery = req.query.query;
+
+    await getMovies(moviequery)
+    .then(stuff => {
+        console.log(stuff)
+        res.status(200).send(stuff)})
+    .catch((error) => {
+        console.error(error)
+        res.status(500).send("Sorry, something ain't right")
+    })
+ 
+ }
+
+
 //POL
 app.get('/', function (req, res){
     console.log('hello')
@@ -37,7 +53,7 @@ app.listen(PORT, ()=> console.log(`listening on ${PORT}`))
 //weather rout recieveing laat/lon  
 app.get('/weather', handleWeather);
 
-app.get('/movie', getMovies);
+app.get('/movie', handleMovie);
 
 app.use('*', (req, res) => {
     res.status(404).send('Page not found bro')
