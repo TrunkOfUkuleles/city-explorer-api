@@ -32,7 +32,7 @@ function getWeather(lat, lon) {
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
-        parseWeather(returner).resolve()})
+        parseWeather(returner)})
   }
   console.log('final cache: ', cache[key])
   return cache[key].data;
