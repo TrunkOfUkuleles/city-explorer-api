@@ -25,10 +25,11 @@ function getMovie (moviequery) {
     .query(queryParams)
     .then(response => {
         const returner = response.body.data
+        console.log('returner ', returner)
         parseMovie(returner)})
   }
   console.log('final cache: ', cache[key])
-  console.log('returner ', returner)
+  
   return cache[key].data;
 }
 
