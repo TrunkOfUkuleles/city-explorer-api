@@ -38,7 +38,7 @@ function parseMovie(movieReturn) {
     const movieResults = movieReturn.map(movie => {
       return new Movier(movie);
     });
-    return Promise.resolve(movieResults);
+    return movieResults;
   } catch (e) {
     return Promise.reject(e);
   }
