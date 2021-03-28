@@ -28,6 +28,7 @@ function getMovie (moviequery) {
         parseMovie(returner)})
   }
   console.log('final cache: ', cache[key])
+  console.log('returner ', returner)
   return cache[key].data;
 }
 
