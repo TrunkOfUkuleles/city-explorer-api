@@ -17,7 +17,7 @@ let cache = require('./cache.js');
     const lon = req.query.lon;
     await forecaster(lat, lon)
     .then(stuff => {
-        console.log('after them',stuff)
+        console.log('after then', stuff)
         res.status(200).send(stuff)})
     .catch((error) => {
         console.error(error)

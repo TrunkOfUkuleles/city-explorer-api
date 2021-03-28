@@ -31,7 +31,7 @@ function getWeather(lat, lon) {
     cache[key].data = superagent.get(url)
     .query(queryParams)
     .then(response => {
-        const returner = response.body
+        const returner = response.body.data
         return returner})
   }
   console.log('final cache: ', cache[key])
@@ -43,10 +43,10 @@ function parseWeather(weatherData) {
     const weatherSummaries = weatherData.map(day => {
       return new Weather(day)
     });
-    console.log('weather days: ', weatherSummaries)
-    return Promise(weatherSummaries);
+
+    return weatherSummaries
   } catch (e) {
-    return Promise.reject(e);
+    return 'error'
   }
 }
 
