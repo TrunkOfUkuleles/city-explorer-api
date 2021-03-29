@@ -44,7 +44,7 @@ function parseWeather(weatherData) {
       return new Weather(day)
     });
 
-    return weatherSummaries
+    return Promise.resolve(weatherSummaries)
   } catch (e) {
     return 'error'
   }
